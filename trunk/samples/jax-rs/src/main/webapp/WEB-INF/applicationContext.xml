@@ -14,6 +14,8 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
     
+    <security:global-method-security secured-annotations="enabled"/>
+    
     <security:authentication-provider>
         <security:user-service>
           <security:user name="joe" password="password" authorities="ROLE_USER,ROLE_ADMIN"/>
@@ -21,9 +23,9 @@
         </security:user-service>
     </security:authentication-provider>
     
-    <jaxrs:server address="/sample">
+    <jaxrs:server address="/rest">
         <jaxrs:serviceBeans>
-            <bean class="sample.SampleService"/>
+            <bean class="sample.GreeterService"/>
         </jaxrs:serviceBeans>
         <jaxrs:inInterceptors>
             <ssec:basic-auth-interceptor/>
