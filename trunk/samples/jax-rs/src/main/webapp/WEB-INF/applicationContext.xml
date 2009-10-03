@@ -27,6 +27,9 @@
         <jaxrs:serviceBeans>
             <bean class="sample.GreeterService"/>
         </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.apache.cxf.security.spring.SpringSecurityExceptionMapper"/>
+        </jaxrs:providers>
         <jaxrs:inInterceptors>
             <ssec:basic-auth-interceptor/>
         </jaxrs:inInterceptors>
