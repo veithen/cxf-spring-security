@@ -18,13 +18,22 @@
  */
 package org.apache.cxf.security.spring;
 
-import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import org.w3c.dom.Element;
 
-public class NamespaceHandler extends NamespaceHandlerSupport {
-    public void init() {
-        registerBeanDefinitionParser("basic-auth-interceptor",
-                new BasicAuthInterceptorDefinitionParser());
-        registerBeanDefinitionParser("server-password-callback-handler",
-                new ServerPasswordCallbackHandlerDefinitionParser());   
+import org.apache.cxf.configuration.spring.AbstractBeanDefinitionParser;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.security.config.BeanIds;
+
+public class BasicAuthInterceptorDefinitionParser extends AbstractBeanDefinitionParser {
+    public BasicAuthInterceptorDefinitionParser() {
+        setBeanClass(BasicAuthInterceptor.class);
+    }
+
+    @Override
+    protected void doParse(Element element, ParserContext ctx,
+            BeanDefinitionBuilder bean) {
+        super.doParse(element, ctx, bean);
+        bean.addPropertyReference("authenticationManager", BeanIds.AUTHENTICATION_MANAGER);
     }
 }

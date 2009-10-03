@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:ssec="http://cxf.apache.org/spring-security"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
+                           http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+                           http://cxf.apache.org/spring-security http://cxf-spring-security.googlecode.com/svn/trunk/cxf-spring-security/src/main/resources/schemas/spring-security.xsd"
+       default-autowire="byName">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+    
+    <security:authentication-provider>
+        <security:user-service>
+          <security:user name="joe" password="password" authorities="ROLE_USER,ROLE_ADMIN"/>
+          <security:user name="bob" password="password" authorities="ROLE_USER"/>
+        </security:user-service>
+    </security:authentication-provider>
+    
+    <jaxrs:server address="/sample">
+        <jaxrs:serviceBeans>
+            <bean class="sample.SampleService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:inInterceptors>
+            <ssec:basic-auth-interceptor/>
+        </jaxrs:inInterceptors>
+        <jaxrs:features>
+            <bean class="org.apache.cxf.security.spring.AuthorizationFeature"/>
+        </jaxrs:features>
+    </jaxrs:server>
+</beans>
