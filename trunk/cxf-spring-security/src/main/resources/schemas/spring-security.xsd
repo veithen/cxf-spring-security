@@ -24,7 +24,13 @@
             elementFormDefault="qualified">
     <xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"/>
     
-    <xsd:element name="basic-auth-interceptor" type="beans:identifiedType"/>
+    <xsd:element name="basic-auth-interceptor">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
     <xsd:element name="server-password-callback-handler">
         <xsd:annotation>
             <xsd:documentation>
