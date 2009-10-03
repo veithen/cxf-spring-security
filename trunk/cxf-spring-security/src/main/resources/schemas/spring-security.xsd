@@ -33,7 +33,7 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="nestExceptions">
+                    <xsd:attribute name="nestExceptions" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
                                 Specifies whether AuthenticationExceptions should be nested in the exceptions thrown by the callback handler.
@@ -42,7 +42,7 @@
                              </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="logExceptions">
+                    <xsd:attribute name="logExceptions" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
                                 Specifies whether AuthenticationExceptions should be logged. When enabled, AuthenticationExceptions will
