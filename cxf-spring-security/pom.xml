@@ -38,9 +38,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-ws-security</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.apache.ws.security</groupId>
+            <artifactId>wss4j</artifactId>
+            <version>1.5.8</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
