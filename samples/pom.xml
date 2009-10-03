@@ -44,6 +44,19 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- This is required for <security:global-method-security> -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <!-- Allow Spring to create proxies for classes that are not specified by interface -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.1_3</version>
+        </dependency>
+        
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
