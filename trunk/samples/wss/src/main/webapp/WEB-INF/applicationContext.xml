@@ -7,7 +7,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
                            http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
-                           http://cxf.apache.org/spring-security file:///Users/veithen/dev/projects/cxf-spring-security/src/main/resources/schemas/spring-security.xsd"
+                           http://cxf.apache.org/spring-security http://cxf-spring-security.googlecode.com/svn/trunk/cxf-spring-security/src/main/resources/schemas/spring-security.xsd"
        default-autowire="byName">
 
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
