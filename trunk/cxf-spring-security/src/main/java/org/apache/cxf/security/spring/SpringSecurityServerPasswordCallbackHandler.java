@@ -44,6 +44,7 @@ public class SpringSecurityServerPasswordCallbackHandler implements CallbackHand
     private boolean nestExceptions;
     private boolean logExceptions;
 
+    // TODO: use an afterPropertiesSet to check that an authentication manager is configured
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
