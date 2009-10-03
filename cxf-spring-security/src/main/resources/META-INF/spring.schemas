@@ -18,4 +18,5 @@
 #    under the License.
 #
 #
-http\://cxf.apache.org/schemas/spring-security.xsd=schemas/spring-security.xsd
+#http\://cxf.apache.org/schemas/spring-security.xsd=schemas/spring-security.xsd
+http\://cxf-spring-security.googlecode.com/svn/trunk/cxf-spring-security/src/main/resources/schemas/spring-security.xsd=schemas/spring-security.xsd
