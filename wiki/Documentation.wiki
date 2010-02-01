@@ -1,0 +1,36 @@
+#summary Documentation
+
+= Introduction =
+
+This document explains how to set up CXF to integrate with Spring Security (formerly known as Acegi Security). From the outset it should be noted that there are numerous ways how things can be set up and that there is no unique approach. This is simply due to the fact that there are multiple protocols that can be used to pass credentials (WS-Security, HTTP authentication, custom protocols, etc.) and that requirements related to authentication and authorization vary from one use case to the other. For example, in some use cases all requests must be authenticated, but there is no role based authorization. In other use cases, one would like to use declarative security to implement fine grained authorizations per method, potentially even with methods that don't need authentication and that may be invoked anonymously.
+
+To satisfy these different requirements, cxf-spring-security provides a set of components that can be combined in different ways, depending on the use case. cxf-spring-security has a Spring namespace handler so that these components can easily be configured using schema based configurations. In the following sections, we will first describe the different available components, and at the end of the chapter, describe how to use these components in some specific scenarios. We assume that the reader is familiar with the concepts underlying the Spring Security framework and with the relevant parts of CXF.
+
+= Using schema based Spring configuration =
+
+To enable schema based configuration of the different cxf-spring-security components, it is sufficient to add the relevant namespace declaration and schema location. Since Spring Security also supports schema based configuration, it is in general a good idea to enable that too. The following example shows the required declarations:
+
+{{{
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:ssec="http://cxf.apache.org/spring-security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=
+          "http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
+           http://cxf.apache.org/spring-security
+           http://cxf-spring-security.googlecode.com/svn/trunk/cxf-spring-security/src/main/resources/schemas/spring-security.xsd">
+}}}
+
+Before configuring any of the cxf-spring-security components, you should first set up the authentication provider you would like to use. Please refer to the Spring Security documentation for more information about the available providers and their configuration. For testing purposes you can use the following bean declaration, which uses an in-memory user database with two users in different roles:
+
+{{{
+<security:authentication-provider>
+  <security:user-service>
+    <security:user name="joe" password="password" authorities="ROLE_USER,ROLE_ADMIN"/>
+    <security:user name="bob" password="password" authorities="ROLE_USER"/>
+  </security:user-service>
+</security:authentication-provider>
+}}}
