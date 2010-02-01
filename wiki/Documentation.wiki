@@ -34,3 +34,21 @@ Before configuring any of the cxf-spring-security components, you should first s
   </security:user-service>
 </security:authentication-provider>
 }}}
+
+= The server side callback handler for WS-Security =
+
+This component provides a password callback handler that authenticates against the configured Spring authentication provider. The authentication token passed to the provider will be of type `org.springframework.security.providers.UsernamePasswordAuthenticationToken`. Additionally, if the authentication is successful, the callback handler will also store the authentication token in the current `Exchange` for later use. Note that this is not the original `UsernamePasswordAuthenticationToken` instance, but the authentication token returned by the authentication manager. The following snippet shows a sample `WSS4JInInterceptor` configuration that uses the callback handler:
+
+{{{
+<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+  <constructor-arg>
+    <map>
+      <entry key="action" value="UsernameToken"/>
+      <entry key="passwordType" value="PasswordText"/>
+      <entry key="passwordCallbackRef">
+        <ssec:server-password-callback-handler logExceptions="true" nestExceptions="false"/>
+      </entry>
+    </map>
+  </constructor-arg>
+</bean>
+}}}
