@@ -68,4 +68,14 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
+    <xsd:element name="generic-username-password-interceptor">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="usernameHeader" type="xsd:string" use="required"/>
+                    <xsd:attribute name="passwordHeader" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>

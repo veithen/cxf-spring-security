@@ -29,5 +29,7 @@ public class NamespaceHandler extends NamespaceHandlerSupport {
                 new ServerPasswordCallbackHandlerDefinitionParser());
         registerBeanDefinitionParser("security-context-feature",
                 new SimpleBeanDefinitionParser(SecurityContextFeature.class));
+        registerBeanDefinitionParser("generic-username-password-interceptor",
+                new SimpleBeanDefinitionParser(GenericUsernamePasswordInterceptor.class));
     }
 }
