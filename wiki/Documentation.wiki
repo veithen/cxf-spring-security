@@ -55,6 +55,33 @@ This component provides a password callback handler that authenticates against t
 
 The `nestExceptions` and `logExceptions` attributes determine the error reporting behavior in case of an authentication failure. If `nestExceptions` is set to `true`, then the exception from the authentication provider is chained to the exception thrown by the callback handler. As a consequence, the SOAP fault returned to the client will contain the error message from the authentication provider. This should be used with care since it may disclose too much information to the client. If `logExceptions` is set to `true`, then the exception thrown by the authentication provider will be logged separately by the callback handler. This is especially useful when `nestExceptions` is `false`, because in this case, CXF will not see the original exception.
 
+= Setting up the security context: <ssec:security-context-feature> =
+
+Attentive readers familiar with the internals of Spring Security may have noticed that the components described so far only add the authentication token to the current `Exchange`, but don't set up Spring's `SecurityContext`, which is required to enable method security. There is a good reason for that: the security context is bound to a particular thread. On the other hand, a given security context instance is only valid for a single request. This has two important implications:
+
+  * Authorization only works properly if there is a one-to-one relation between requests and threads. In the vast majority of configurations this is the case, but CXF can also be configured to invoke the service implementation asynchronously. In that case, the service method is executed on a different thread than the interceptors.
+  * The security context must be removed from the thread before the processing of the request completes. Otherwise there is a risk that the security context accidentally gets picked up by another request, and this may cause a security breach.
+
+This makes it clear that an interceptor would not be the right place to manage Spring's security context. cxf-spring-security solves this issue with the help of a `org.apache.cxf.service.invoker.Invoker` proxy that will be installed in front of the real invoker (whose responsibility is to dispatch to the right method of the service implementation). This proxy sets up the security context before delegating to the real invoker and removes it after completion.
+
+To simplify configuration, cxf-spring-security defines a feature (see `org.apache.cxf.feature.AbstractFeature` for a description of the concept of 'feature') that installs this proxy in the right place. This feature is enabled as shown in the following example:
+
+{{{
+<security:global-method-security secured-annotations="enabled"/>
+
+<simple:server serviceClass="..." address="...">
+  <simple:serviceBean>
+    ...
+  </simple:serviceBean>
+  ...
+  <simple:features>
+    <ssec:security-context-feature/>
+  </simple:features>
+</simple:server>
+}}}
+
+The example uses the simple front-end, but the feature works in the same way for the JAX-WS and JAX-RS front-ends. Also shown in the example is the declaration that enables annotation based method security. As noted above, binding the security context is a prerequisite for using method security.
+
 = Exception mapper for JAX-RS =
 
 When method security on a JAX-RS service is enabled, invocation of a method of that service may result in a `SpringSecurityException` if the request is unauthenticated or the user doesn't have the required role. cxf-spring-security provides an `javax.ws.rs.ext.ExceptionMapper` implementation that maps these exceptions to the appropriate HTTP response statuses (401, 403 or 500). To use this exception mapper, simply register it as a provider:
