@@ -31,12 +31,13 @@ import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.ws.security.WSPasswordCallback;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.Authentication;
 import org.springframework.security.AuthenticationException;
 import org.springframework.security.AuthenticationManager;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
-public class ServerPasswordCallbackHandler implements CallbackHandler {
+public class ServerPasswordCallbackHandler implements CallbackHandler, InitializingBean {
     private static final Logger LOG = LogUtils.getL7dLogger(
             ServerPasswordCallbackHandler.class);
     
@@ -44,7 +45,6 @@ public class ServerPasswordCallbackHandler implements CallbackHandler {
     private boolean nestExceptions;
     private boolean logExceptions;
 
-    // TODO: use an afterPropertiesSet to check that an authentication manager is configured
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -55,6 +55,12 @@ public class ServerPasswordCallbackHandler implements CallbackHandler {
 
     public void setLogExceptions(boolean logExceptions) {
         this.logExceptions = logExceptions;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        if (authenticationManager == null) {
+            throw new IllegalStateException("No authentication manager has been configured");
+        }
     }
 
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
