@@ -57,4 +57,10 @@
          <arg0>Joe</arg0>
       </sayHello>
    </Body>
-</Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://sample/SampleServicePortType/sayHello"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:outgoing><con:name>Joe - Plaintext</con:name><con:entry type="Username" username="joe" password="password"><con:configuration><addCreated>false</addCreated><addNonce>false</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer></con:soapui-project>
+</Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://sample/SampleServicePortType/sayHello"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Wrong password" outgoingWss="Wrong password"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/wss-sample/sample</con:endpoint><con:request><![CDATA[<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+   <Body>
+      <sayHello xmlns="http://sample/">
+         <arg0>Joe</arg0>
+      </sayHello>
+   </Body>
+</Envelope>]]></con:request><con:credentials><con:username/><con:password/></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://sample/SampleServicePortType/sayHello"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:outgoing><con:name>Joe - Plaintext</con:name><con:entry type="Username" username="joe" password="password"><con:configuration><addCreated>false</addCreated><addNonce>false</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing><con:outgoing><con:name>Wrong password</con:name><con:entry type="Username" username="joe" password="wrongpassword"><con:configuration><addCreated>false</addCreated><addNonce>false</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer></con:soapui-project>
