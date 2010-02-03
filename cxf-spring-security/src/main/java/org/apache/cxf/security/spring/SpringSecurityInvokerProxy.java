@@ -26,21 +26,9 @@ import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 
 public class SpringSecurityInvokerProxy implements Invoker {
-    private Invoker target;
+    private final Invoker target;
     
     public SpringSecurityInvokerProxy(Invoker target) {
-        this.target = target;
-    }
-
-    public SpringSecurityInvokerProxy() {
-    }
-    
-    public Invoker getTarget() {
-        return target;
-    }
-
-    // TODO: decide if we need setters or if constructor is enough
-    public void setTarget(Invoker target) {
         this.target = target;
     }
 
