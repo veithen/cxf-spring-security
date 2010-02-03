@@ -55,6 +55,26 @@ This component provides a password callback handler that authenticates against t
 
 The `nestExceptions` and `logExceptions` attributes determine the error reporting behavior in case of an authentication failure. If `nestExceptions` is set to `true`, then the exception from the authentication provider is chained to the exception thrown by the callback handler. As a consequence, the SOAP fault returned to the client will contain the error message from the authentication provider. This should be used with care since it may disclose too much information to the client. If `logExceptions` is set to `true`, then the exception thrown by the authentication provider will be logged separately by the callback handler. This is especially useful when `nestExceptions` is `false`, because in this case, CXF will not see the original exception.
 
+= Building a `UsernamePasswordAuthenticationToken` from protocol headers: <ssec:generic-username-password-interceptor> =
+
+In some use cases, WS-Security is not an option, e.g. because it would add too much overhead or simply because the service doesn't use SOAP. In these cases, an alternative is to define a custom protocol that uses protocol headers to pass the credentials. E.g. when using JMS, credentials could be passed using JMS message properties. cxf-spring-security provides an interceptor that can be used in these cases, provided that the user name and password are stored in two distinct protocol headers and that the password is sent as plain text. The names of the two protocol headers are configurable, as shown in the following example:
+
+{{{
+<ssec:generic-username-password-interceptor usernameHeader="user" passwordHeader="password"/>
+}}}
+
+The interceptor does NOT perform authentication. It simply builds an unauthenticated `UsernamePasswordAuthenticationToken` and stores it in the current `Exchange`. Also, it does NOT trigger any error if the protocol headers are not present in the message. Therefore, to be effective, this interceptor must be combined with one of the authentication interceptors described below, unless it is used on a service that has method security enabled (in which case Spring Security will perform authentication as required).
+
+= Perform authentication for SOAP services: <ssec:soap-authentication-interceptor> =
+
+This interceptor looks up the `Authentication` from the current `Exchange`, invokes the configured authentication manager and triggers an appropriate SOAP fault if authentication fails. By default the interceptor also triggers a fault if no authentication token is found. This behavior is configurable; authentication can be made optional as follows:
+
+{{{
+<ssec:soap-authentication-interceptor authenticationRequired="false"/>
+}}}
+
+Note that using this interceptor is not meaningful when WS-Security is enabled because the callback handler provided by cxf-spring-security already forces authentication.
+
 = Setting up the security context: <ssec:security-context-feature> =
 
 Attentive readers familiar with the internals of Spring Security may have noticed that the components described so far only add the authentication token to the current `Exchange`, but don't set up Spring's `SecurityContext`, which is required to enable method security. There is a good reason for that: the security context is bound to a particular thread. On the other hand, a given security context instance is only valid for a single request. This has two important implications:
