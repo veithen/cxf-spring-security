@@ -36,9 +36,9 @@ import org.springframework.security.AuthenticationException;
 import org.springframework.security.AuthenticationManager;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
-public class SpringSecurityServerPasswordCallbackHandler implements CallbackHandler {
+public class ServerPasswordCallbackHandler implements CallbackHandler {
     private static final Logger LOG = LogUtils.getL7dLogger(
-            SpringSecurityServerPasswordCallbackHandler.class);
+            ServerPasswordCallbackHandler.class);
     
     private AuthenticationManager authenticationManager;
     private boolean nestExceptions;
