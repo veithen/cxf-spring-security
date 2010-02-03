@@ -28,7 +28,7 @@ import org.springframework.security.config.BeanIds;
 
 public class ServerPasswordCallbackHandlerDefinitionParser extends AbstractBeanDefinitionParser {
     public ServerPasswordCallbackHandlerDefinitionParser() {
-        setBeanClass(SpringSecurityServerPasswordCallbackHandler.class);
+        setBeanClass(ServerPasswordCallbackHandler.class);
     }
 
     @Override
