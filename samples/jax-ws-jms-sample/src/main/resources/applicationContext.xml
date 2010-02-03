@@ -37,7 +37,7 @@
                     address="jms:jndi:dynamicQueues/calculator?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=vm://broker1%3Fmarshal=false%26broker.persistent=false"
                     transportId="http://www.w3.org/2008/07/soap/bindings/JMS/">
         <jaxws:inInterceptors>
-            <bean class="test.JMSAuthenticationInterceptor"/>
+            <ssec:generic-username-password-interceptor usernameHeader="user" passwordHeader="password"/>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
 </beans>
