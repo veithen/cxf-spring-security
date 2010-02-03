@@ -18,6 +18,7 @@
  */
 package org.apache.cxf.security.spring;
 
+import org.apache.cxf.configuration.spring.SimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 public class NamespaceHandler extends NamespaceHandlerSupport {
@@ -25,6 +26,8 @@ public class NamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("basic-auth-interceptor",
                 new BasicAuthInterceptorDefinitionParser());
         registerBeanDefinitionParser("server-password-callback-handler",
-                new ServerPasswordCallbackHandlerDefinitionParser());   
+                new ServerPasswordCallbackHandlerDefinitionParser());
+        registerBeanDefinitionParser("security-context-feature",
+                new SimpleBeanDefinitionParser(SecurityContextFeature.class));
     }
 }

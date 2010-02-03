@@ -34,7 +34,7 @@
             <ssec:basic-auth-interceptor/>
         </jaxrs:inInterceptors>
         <jaxrs:features>
-            <bean class="org.apache.cxf.security.spring.AuthorizationFeature"/>
+            <ssec:security-context-feature/>
         </jaxrs:features>
     </jaxrs:server>
 </beans>
