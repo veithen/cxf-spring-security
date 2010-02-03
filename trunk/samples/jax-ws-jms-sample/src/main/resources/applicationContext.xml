@@ -32,12 +32,20 @@
 
     <amq:broker persistent="false"/>
 
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="joe" password="password" authorities="ROLE_USER,ROLE_ADMIN"/>
+            <security:user name="bob" password="password" authorities="ROLE_USER"/>
+        </security:user-service>
+    </security:authentication-provider>
+    
     <jaxws:endpoint id="endpoint"
                     implementor="test.calculator.impl.CalculatorImpl"
                     address="jms:jndi:dynamicQueues/calculator?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=vm://broker1%3Fmarshal=false%26broker.persistent=false"
                     transportId="http://www.w3.org/2008/07/soap/bindings/JMS/">
         <jaxws:inInterceptors>
             <ssec:generic-username-password-interceptor usernameHeader="user" passwordHeader="password"/>
+            <ssec:soap-authentication-interceptor/>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
 </beans>
