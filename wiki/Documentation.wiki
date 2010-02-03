@@ -117,3 +117,23 @@ When method security on a JAX-RS service is enabled, invocation of a method of t
   ...
 </jaxrs:server>
 }}}
+
+= Scenario 1: JAX-WS + SOAP/JMS + custom authentication protocol + no method security =
+
+Requirements:
+  * The service is implemented using JAX-WS with SOAP/JMS as transport protocol.
+  * Credentials are passed as JMS message properties: `user` for the user name and `password` for the (unencrypted) password.
+  * Method security is not used and all requests must be authenticated.
+
+This use case can easily be implemented by using two of the interceptors provided by cxf-spring-security. The bean configuration for the JAX-WS endpoint would look as follows:
+
+{{{
+<jaxws:endpoint implementor="..."
+                address="jms:..."
+                transportId="http://www.w3.org/2008/07/soap/bindings/JMS/">
+  <jaxws:inInterceptors>
+    <ssec:generic-username-password-interceptor usernameHeader="user" passwordHeader="password"/>
+    <ssec:soap-authentication-interceptor/>
+  </jaxws:inInterceptors>
+</jaxws:endpoint>
+}}}
