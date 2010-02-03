@@ -78,4 +78,13 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
+    <xsd:element name="soap-authentication-interceptor">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="authenticationRequired" type="xsd:boolean" default="true"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
