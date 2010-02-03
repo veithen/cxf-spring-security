@@ -16,19 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.cxf.security.spring;
 
 import org.w3c.dom.Element;
 
-import org.apache.cxf.configuration.spring.AbstractBeanDefinitionParser;
+import org.apache.cxf.configuration.spring.SimpleBeanDefinitionParser;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.security.config.BeanIds;
 
-public class ServerPasswordCallbackHandlerDefinitionParser extends AbstractBeanDefinitionParser {
-    public ServerPasswordCallbackHandlerDefinitionParser() {
-        setBeanClass(ServerPasswordCallbackHandler.class);
+public class AuthenticationManagerAwareBeanDefinitionParser extends SimpleBeanDefinitionParser {
+    public AuthenticationManagerAwareBeanDefinitionParser(Class<?> beanClass) {
+        super(beanClass);
     }
 
     @Override

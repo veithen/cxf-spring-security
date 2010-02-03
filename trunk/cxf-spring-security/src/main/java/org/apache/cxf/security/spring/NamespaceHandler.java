@@ -24,9 +24,9 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class NamespaceHandler extends NamespaceHandlerSupport {
     public void init() {
         registerBeanDefinitionParser("basic-auth-interceptor",
-                new BasicAuthInterceptorDefinitionParser());
+                new AuthenticationManagerAwareBeanDefinitionParser(BasicAuthInterceptor.class));
         registerBeanDefinitionParser("server-password-callback-handler",
-                new ServerPasswordCallbackHandlerDefinitionParser());
+                new AuthenticationManagerAwareBeanDefinitionParser(ServerPasswordCallbackHandler.class));
         registerBeanDefinitionParser("security-context-feature",
                 new SimpleBeanDefinitionParser(SecurityContextFeature.class));
         registerBeanDefinitionParser("generic-username-password-interceptor",
