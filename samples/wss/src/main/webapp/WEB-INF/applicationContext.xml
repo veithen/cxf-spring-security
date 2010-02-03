@@ -39,7 +39,7 @@
             </bean>
         </simple:inInterceptors>
         <simple:features>
-            <bean class="org.apache.cxf.security.spring.AuthorizationFeature"/>
+            <ssec:security-context-feature/>
         </simple:features>
     </simple:server>
 </beans>
