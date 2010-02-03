@@ -1,0 +1,62 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package test;
+
+import java.util.List;
+
+import javax.xml.ws.BindingProvider;
+
+import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.transport.jms.JMSConstants;
+import org.apache.cxf.transport.jms.JMSMessageHeadersType;
+import org.apache.cxf.transport.jms.JMSPropertyType;
+import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import test.calculator.Calculator;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        String address = ((EndpointImpl)appContext.getBean("endpoint")).getAddress();
+        
+        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setTransportId(JMSSpecConstants.SOAP_JMS_SPECIFICIATION_TRANSPORTID);
+        factory.setServiceClass(Calculator.class);
+        factory.setAddress(address);
+        Calculator client = (Calculator)factory.create();
+        JMSMessageHeadersType headers = new JMSMessageHeadersType();
+        List<JMSPropertyType> properties = headers.getProperty();
+        JMSPropertyType property = new JMSPropertyType();
+        property.setName("user");
+        property.setValue("joe");
+        properties.add(property);
+        property = new JMSPropertyType();
+        property.setName("password");
+        property.setValue("password");
+        properties.add(property);
+        ((BindingProvider)client).getRequestContext().put(JMSConstants.JMS_CLIENT_REQUEST_HEADERS, headers);
+        System.out.println("1 + 1 = " + client.add(1, 1));
+
+        appContext.destroy();
+//        System.exit(0);
+    }
+}
