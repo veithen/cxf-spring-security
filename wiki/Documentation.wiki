@@ -52,3 +52,5 @@ This component provides a password callback handler that authenticates against t
   </constructor-arg>
 </bean>
 }}}
+
+The `nestExceptions` and `logExceptions` attributes determine the error reporting behavior in case of an authentication failure. If `nestExceptions` is set to `true`, then the exception from the authentication provider is chained to the exception thrown by the callback handler. As a consequence, the SOAP fault returned to the client will contain the error message from the authentication provider. This should be used with care since it may disclose too much information to the client. If `logExceptions` is set to `true`, then the exception thrown by the authentication provider will be logged separately by the callback handler. This is especially useful when `nestExceptions` is `false`, because in this case, CXF will not see the original exception.
