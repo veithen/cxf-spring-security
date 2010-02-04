@@ -8,4 +8,5 @@ For WS-Security, cxf-spring-security only covers use cases where authentication 
 
 Links:
 
-  * http://www.mail-archive.com/users@cxf.apache.org/msg09851.html
+  * Use case: http://www.mail-archive.com/users@cxf.apache.org/msg09851.html
+  * Extracting the WSS4J output from the message context: http://www.mail-archive.com/users@cxf.apache.org/msg10460.html
