@@ -6,6 +6,12 @@ This document explains how to set up CXF to integrate with Spring Security (form
 
 To satisfy these different requirements, cxf-spring-security provides a set of components that can be combined in different ways, depending on the use case. cxf-spring-security has a Spring namespace handler so that these components can easily be configured using schema based configurations. In the following sections, we will first describe the different available components, and at the end of the chapter, describe how to use these components in some specific scenarios. We assume that the reader is familiar with the concepts underlying the Spring Security framework and with the relevant parts of CXF.
 
+*Note:* The reader should be aware that the concept of _security context_ used in this document may have different meanings depending on the context. In fact, there are three different Java interfaces called `SecurityContext`:
+
+  * CXF defines a `org.apache.cxf.security.SecurityContext` interface exposing information about the principal and its roles if the request is authenticated by the container.
+  * Spring Security defines a `org.springframework.security.context.SecurityContext` which is basically a holder for an authentication token (i.e. an `org.springframework.security.Authentication` object).
+  * JAX-RS defines a `javax.ws.rs.core.SecurityContext` interface exposing information about the principal, the roles assumed by the requestor, whether the request arrived over a secure channel and the authentication scheme used.
+
 = Using schema based Spring configuration =
 
 To enable schema based configuration of the different cxf-spring-security components, it is sufficient to add the relevant namespace declaration and schema location. Since Spring Security also supports schema based configuration, it is in general a good idea to enable that too. The following example shows the required declarations:
