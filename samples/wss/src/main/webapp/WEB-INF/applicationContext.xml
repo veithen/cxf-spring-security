@@ -39,7 +39,7 @@
             </bean>
         </simple:inInterceptors>
         <simple:features>
-            <ssec:security-context-feature/>
+            <ssec:spring-security-context-feature/>
         </simple:features>
     </simple:server>
 </beans>

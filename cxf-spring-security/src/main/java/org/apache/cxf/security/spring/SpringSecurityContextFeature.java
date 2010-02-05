@@ -23,7 +23,7 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.service.Service;
 
-public class SecurityContextFeature extends AbstractFeature {
+public class SpringSecurityContextFeature extends AbstractFeature {
     @Override
     public void initialize(Server server, Bus bus) {
         Service service = server.getEndpoint().getService();
