@@ -81,7 +81,13 @@ This interceptor looks up the `Authentication` from the current `Exchange`, invo
 
 Note that using this interceptor is not meaningful when WS-Security is enabled because the callback handler provided by cxf-spring-security already forces authentication.
 
-= Setting up the security context: <ssec:spring-security-context-feature> =
+= Setting up CXF's security context: <ssec:cxf-security-context-provider-interceptor> =
+
+If the request is authenticated by the container or by the transport (see e.g. the `JMSXUserID` support in the JMS transport), CXF adds a `org.apache.cxf.security.SecurityContext` object to the request message object to expose information about the principal and the roles assumed by the requestor. This information is used by other CXF components. E.g. the JAX-RS front-end uses this information to build and inject `javax.ws.rs.core.SecurityContext` instances. If Spring Security is used for authentication, then CXF's `SecurityContext` is not initialized automatically. cxf-spring-security provides an interceptor that can be used if this is required. This interceptor adapts an authenticated `Authentication` object found in the current `Exchange` to the `org.apache.cxf.security.SecurityContext` interface and adds it to the current message. Authorities in the `Authentication` object are mapped one-to-one to roles in the `SecurityContext`.
+
+Using `<ssec:cxf-security-context-provider-interceptor>` is meaningful together with `<ssec:server-password-callback-handler>` or any of the authentication interceptors described in the previous sections.
+
+= Setting up Spring's security context: <ssec:spring-security-context-feature> =
 
 Attentive readers familiar with the internals of Spring Security may have noticed that the components described so far only add the authentication token to the current `Exchange`, but don't set up Spring's `SecurityContext`, which is required to enable method security. There is a good reason for that: the security context is bound to a particular thread. On the other hand, a given security context instance is only valid for a single request. This has two important implications:
 
