@@ -33,5 +33,7 @@ public class NamespaceHandler extends NamespaceHandlerSupport {
                 new SimpleBeanDefinitionParser(GenericUsernamePasswordInterceptor.class));
         registerBeanDefinitionParser("soap-authentication-interceptor",
                 new AuthenticationManagerAwareBeanDefinitionParser(SoapAuthenticationInterceptor.class));
+        registerBeanDefinitionParser("cxf-security-context-provider-interceptor",
+                new SimpleBeanDefinitionParser(CXFSecurityContextProviderInterceptor.class));
     }
 }

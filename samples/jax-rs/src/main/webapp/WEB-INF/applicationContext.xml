@@ -32,6 +32,7 @@
         </jaxrs:providers>
         <jaxrs:inInterceptors>
             <ssec:basic-auth-interceptor/>
+            <ssec:cxf-security-context-provider-interceptor/>
         </jaxrs:inInterceptors>
         <jaxrs:features>
             <ssec:spring-security-context-feature/>
