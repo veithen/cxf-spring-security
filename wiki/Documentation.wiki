@@ -81,7 +81,7 @@ This interceptor looks up the `Authentication` from the current `Exchange`, invo
 
 Note that using this interceptor is not meaningful when WS-Security is enabled because the callback handler provided by cxf-spring-security already forces authentication.
 
-= Setting up the security context: <ssec:security-context-feature> =
+= Setting up the security context: <ssec:spring-security-context-feature> =
 
 Attentive readers familiar with the internals of Spring Security may have noticed that the components described so far only add the authentication token to the current `Exchange`, but don't set up Spring's `SecurityContext`, which is required to enable method security. There is a good reason for that: the security context is bound to a particular thread. On the other hand, a given security context instance is only valid for a single request. This has two important implications:
 
@@ -101,7 +101,7 @@ To simplify configuration, cxf-spring-security defines a feature (see `org.apach
   </simple:serviceBean>
   ...
   <simple:features>
-    <ssec:security-context-feature/>
+    <ssec:spring-security-context-feature/>
   </simple:features>
 </simple:server>
 }}}
