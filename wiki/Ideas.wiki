@@ -10,9 +10,3 @@ Links:
 
   * Use case: http://www.mail-archive.com/users@cxf.apache.org/msg09851.html
   * Extracting the WSS4J output from the message context: http://www.mail-archive.com/users@cxf.apache.org/msg10460.html
-
-= Providing `SecurityContext` to JAX-RS =
-
-JAX-RS defines an interface called `javax.ws.rs.core.SecurityContext` to retrieve authorizations. If authentication is handled by Spring Security, then the authorization information should be exposed to JAX-RS resources through that interface. This is currently not possible.
-
-According to the code in `org.apache.cxf.jaxrs.impl.SecurityContextImpl` it should be enough to provide an interceptor that maps the `org.springframework.security.Authentication` object to a `org.apache.cxf.security.SecurityContext` and adds it to the current message.
