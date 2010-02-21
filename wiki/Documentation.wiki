@@ -4,13 +4,23 @@
 
 This document explains how to set up CXF to integrate with Spring Security (formerly known as Acegi Security). From the outset it should be noted that there are numerous ways how things can be set up and that there is no unique approach. This is simply due to the fact that there are multiple protocols that can be used to pass credentials (WS-Security, HTTP authentication, custom protocols, etc.) and that requirements related to authentication and authorization vary from one use case to the other. For example, in some use cases all requests must be authenticated, but there is no role based authorization. In other use cases, one would like to use declarative security to implement fine grained authorizations per method, potentially even with methods that don't need authentication and that may be invoked anonymously.
 
-To satisfy these different requirements, cxf-spring-security provides a set of components that can be combined in different ways, depending on the use case. cxf-spring-security has a Spring namespace handler so that these components can easily be configured using schema based configurations. In the following sections, we will first describe the different available components, and at the end of the chapter, describe how to use these components in some specific scenarios. We assume that the reader is familiar with the concepts underlying the Spring Security framework and with the relevant parts of CXF.
+Although CXF doesn't know anything about Spring Security, some scenarios are actually supported out-of-the-box by CXF, because Spring Security and CXF are able to exchange information through standard APIs that both frameworks understand. Other scenarios require tighter integration between Spring Security and CXF.
+
+For these scenarios, cxf-spring-security provides a set of ready-to-use components that can be combined in different ways, depending on the use case. cxf-spring-security has a Spring namespace handler so that these components can easily be configured using schema based configurations. In the following sections, we will first describe the different available components, and at the end of the chapter, describe how to use these components in some specific scenarios. We assume that the reader is familiar with the concepts underlying the Spring Security framework and with the relevant parts of CXF.
 
 *Note:* The reader should be aware that the concept of _security context_ used in this document may have different meanings depending on the context. In fact, there are three different Java interfaces called `SecurityContext`:
 
   * CXF defines a `org.apache.cxf.security.SecurityContext` interface exposing information about the principal and its roles if the request is authenticated by the container.
   * Spring Security defines a `org.springframework.security.context.SecurityContext` which is basically a holder for an authentication token (i.e. an `org.springframework.security.Authentication` object).
   * JAX-RS defines a `javax.ws.rs.core.SecurityContext` interface exposing information about the principal, the roles assumed by the requestor, whether the request arrived over a secure channel and the authentication scheme used.
+
+= Scenarios supported out-of-the-box by CXF =
+
+The scenarios that don't require any particular integration between Spring Security and CXF are those where the authentication and authorization process is driven by Spring Security. This is the case for HTTP based authentication, provided that authentication is handled by Spring Security's servlet filters. Method level authorization works in this setup because the servlet filters bind the authentication token to the current thread. The only requirement is that the appropriate interceptors are set up in the Spring configuration.
+
+Note however that this works correctly only if requests are processed by a single thread. More precisely, the thread executing the service must be the same as the one on which the servlet filters are executed. This is the case in most setups, but in some scenarios involving asynchronous execution or one-way operations, this may not be true. There is a more detailed discussion about these scenarios in one of the following sections.
+
+Another feature that is supported out-of-the-box is retrieving the user credentials provided by Spring Security in a JAX-RS resource through injection of a `javax.ws.rs.core.SecurityContext` object. Indeed, the default filter configuration in Spring Security includes `SecurityContextHolderAwareRequestFilter` which replaces the `ServletRequest` with a request wrapper that overrides the `getUserPrincipal` and `isUserInRole` methods so that they return information from Spring Security. CXF's HTTP transport uses that information to build a `org.apache.cxf.security.SecurityContext` and the JAX-RS front-end will use that to inject `javax.ws.rs.core.SecurityContext` instances.
 
 = Using schema based Spring configuration =
 
