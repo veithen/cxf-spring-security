@@ -10,3 +10,7 @@ Links:
 
   * Use case: http://www.mail-archive.com/users@cxf.apache.org/msg09851.html
   * Extracting the WSS4J output from the message context: http://www.mail-archive.com/users@cxf.apache.org/msg10460.html
+
+= Scenario: `<jaxws:endpoint>` with HTTP Auth =
+
+When a JAX-WS service is published using `<jaxws:endpoint>`, it is not possible to use the Spring Security servlet filters and HTTP Auth must be implemented using interceptors.
