@@ -88,6 +88,14 @@
         </xsd:complexType>
     </xsd:element>
     <xsd:element name="cxf-security-context-provider-interceptor">
+        <xsd:annotation>
+            <xsd:documentation>
+                This interceptor builds an org.apache.cxf.security.SecurityContext object from an
+                an authenticated Authentication object found in the current Exchange and adds it
+                to the current message. Authorities in the Authentication object are mapped
+                one-to-one to roles in the SecurityContext.
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType"/>
