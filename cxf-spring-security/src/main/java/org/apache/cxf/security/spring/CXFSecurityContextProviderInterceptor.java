@@ -30,7 +30,8 @@ import org.springframework.security.GrantedAuthority;
 
 public class CXFSecurityContextProviderInterceptor extends AbstractPhaseInterceptor<Message> {
     public CXFSecurityContextProviderInterceptor() {
-        // TODO: this is almost certainly not the right phase; in particular this will probably not work with WS-Security
+        // TODO: this is almost certainly not the right phase;
+        //       in particular this will probably not work with WS-Security
         super(Phase.RECEIVE);
     }
 
