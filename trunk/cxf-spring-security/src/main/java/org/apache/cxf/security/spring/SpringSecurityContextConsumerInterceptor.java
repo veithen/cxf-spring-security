@@ -16,30 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.cxf.systest.security;
+package org.apache.cxf.security.spring;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.AbstractPhaseInterceptor;
+import org.apache.cxf.phase.Phase;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 
-public class OnewayServiceImpl implements OnewayService {
-    // Since testOneway is invoked asynchronously, we need a queue here
-    private BlockingQueue<String> lastCallerQueue = new LinkedBlockingQueue<String>();
-    
-    public void testOneway(String param) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        lastCallerQueue.add(authentication == null ? null : authentication.getName());
+public class SpringSecurityContextConsumerInterceptor extends AbstractPhaseInterceptor<Message> {
+    public SpringSecurityContextConsumerInterceptor() {
+        // TODO: choose right phase
+        super(Phase.RECEIVE);
     }
 
-    public String getLastCaller() {
-        try {
-            return lastCallerQueue.poll(60, TimeUnit.SECONDS);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-            return null;
-        }
+    public void handleMessage(Message message) throws Fault {
+        message.getExchange().put(Authentication.class,
+                SecurityContextHolder.getContext().getAuthentication());
     }
 }

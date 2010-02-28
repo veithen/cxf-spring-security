@@ -102,4 +102,18 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
+    <xsd:element name="spring-security-context-consumer-interceptor">
+        <xsd:annotation>
+            <xsd:documentation>
+                This interceptor gets the Authentication object from the current
+                org.springframework.security.context.SecurityContext stored by SecurityContextHolder
+                and adds it to the current Exchange.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>

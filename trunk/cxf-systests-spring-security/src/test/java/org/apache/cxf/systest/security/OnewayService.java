@@ -27,4 +27,7 @@ public interface OnewayService {
     @Oneway
     @WebMethod
     void testOneway(String param);
+    
+    @WebMethod
+    String getLastCaller();
 }
