@@ -52,7 +52,10 @@ public class SpringHttpAuthJaxwsOnewayTest extends AbstractClientServerTestBase 
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setServiceClass(OnewayService.class);
         factory.setAddress("http://localhost:9080/oneway");
+        factory.setUsername("joe");
+        factory.setPassword("password");
         OnewayService service = (OnewayService)factory.create();
         service.testOneway("test");
+        assertEquals("joe", service.getLastCaller());
     }
 }

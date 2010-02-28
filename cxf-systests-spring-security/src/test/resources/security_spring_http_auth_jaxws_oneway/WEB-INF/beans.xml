@@ -47,5 +47,11 @@
         <jaxws:serviceBean>
             <bean class="org.apache.cxf.systest.security.OnewayServiceImpl"/>
         </jaxws:serviceBean>
+        <jaxws:inInterceptors>
+            <ssec:spring-security-context-consumer-interceptor/>
+        </jaxws:inInterceptors>
+        <jaxws:features>
+            <ssec:spring-security-context-feature/>
+        </jaxws:features>
     </jaxws:server>
 </beans>
