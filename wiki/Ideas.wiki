@@ -14,3 +14,7 @@ Links:
 = Scenario: `<jaxws:endpoint>` with HTTP Auth =
 
 When a JAX-WS service is published using `<jaxws:endpoint>`, it is not possible to use the Spring Security servlet filters and HTTP Auth must be implemented using interceptors.
+
+= Scenario: URL based authentication with JAX-RS =
+
+Systest [http://svn.apache.org/repos/asf/cxf/sandbox/veithen/cxf-spring-security/cxf-systests-spring-security/src/test/resources/security_spring_url_based_auth_jaxrs/WEB-INF/beans.xml exists], but needs to be documented.
