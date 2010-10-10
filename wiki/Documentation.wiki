@@ -71,6 +71,18 @@ This component provides a password callback handler that authenticates against t
 
 The `nestExceptions` and `logExceptions` attributes determine the error reporting behavior in case of an authentication failure. If `nestExceptions` is set to `true`, then the exception from the authentication provider is chained to the exception thrown by the callback handler. As a consequence, the SOAP fault returned to the client will contain the error message from the authentication provider. This should be used with care since it may disclose too much information to the client. If `logExceptions` is set to `true`, then the exception thrown by the authentication provider will be logged separately by the callback handler. This is especially useful when `nestExceptions` is `false`, because in this case, CXF will not see the original exception.
 
+The above configuration assumes that the WSS4J interceptors are configured explicitly. If instead the service is configured using policies, then the `ws-security.callback-handler` property can be used to set the callback handler. For example, when using JAX-WS:
+
+{{{
+<jaxws:endpoint implementor="..." wsdlLocation="..." serviceName="..." address="...">
+  <jaxws:properties>
+    <entry key="ws-security.callback-handler">
+      <ssec:server-password-callback-handler logExceptions="true" nestExceptions="false"/>
+    </entry>
+  </jaxws:properties>
+</jaxws:endpoint>
+}}}
+
 = Building a `UsernamePasswordAuthenticationToken` from protocol headers: <ssec:generic-username-password-interceptor> =
 
 In some use cases, WS-Security is not an option, e.g. because it would add too much overhead or simply because the service doesn't use SOAP. In these cases, an alternative is to define a custom protocol that uses protocol headers to pass the credentials. E.g. when using JMS, credentials could be passed using JMS message properties. cxf-spring-security provides an interceptor that can be used in these cases, provided that the user name and password are stored in two distinct protocol headers and that the password is sent as plain text. The names of the two protocol headers are configurable, as shown in the following example:
